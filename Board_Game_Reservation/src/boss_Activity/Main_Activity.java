@@ -14,17 +14,30 @@ package boss_Activity;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.accessibility.AccessibleContext;
 import rooms.Rooms;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+//import caidan.yaotianshui;
 
-public class Main_Activity {
-	private JFrame frame;
+public class Main_Activity extends JFrame {
+	public JFrame frame = new JFrame();
+	JPanel panel = new JPanel();
+	JPanel[] panels = new JPanel [4];
+	JPanel[] res = new JPanel [4];
+	JPanel[] foodPanels = new JPanel [4];
+
+	//JPanel bottom = new JPanel();
+	//Container contentPane = frame.getContentPane();
 	
-	Rooms num1, num2, num3, num4;
+	//static Main_Activity window = new Main_Activity();
+	Rooms num1 = new Rooms();
+	Rooms num2 = new Rooms();
+	Rooms num3 = new Rooms();
+	Rooms num4 = new Rooms();
+	
+	static Rooms[] nums = new Rooms[4];
 	String user = "";
-	int start_time;
-	int end_time;
 	
 	/*오픈 소스 참조 내용 (13 ~ 25)*/
 	public static void main(String[] args) {
@@ -32,7 +45,7 @@ public class Main_Activity {
 			public void run() {
 				try {
 					Main_Activity window = new Main_Activity(); //
-					window.frame.setVisible(true);				//
+					window.frame.setVisible(true);				//	
 				} catch (Exception e) {
 					e.printStackTrace();						//
 				}
@@ -40,21 +53,46 @@ public class Main_Activity {
 		});
 	}
 	
-	public Main_Activity() {
-		initialize();
+	Main_Activity() {
+		
+		Make_Room mr = new Make_Room();
+		
+		nums[0] = num1;
+		nums[1] = num2;
+		nums[2] = num3;
+		nums[3] = num4;
+		
+		for (int i = 0; i < 4; i++)
+		{
+			panels[i] = new JPanel();
+			res[i] = new JPanel();
+		}
+		
+		for (int i = 0; i < 4; i++)
+		{
+			foodPanels[i] = new JPanel();
+			foodPanels[i].setBounds(0, 500, 784, 200);
+			foodPanels[i].setBackground(new Color(255, 255, 0));
+			foodPanels[i].setLayout(null);
+			frame.add(foodPanels[i]); 				// foodPanels
+			foodPanels[i].setVisible(false);
+		}
+		
+		initialize(num1);
+		initialize(num2);
+			
+		mr.setButton(this, num1, 100, 74, 0);
+		mr.setButton(this, num2, 480, 74, 1);
+		mr.setButton(this, num3, 100, 255, 2);
+		mr.setButton(this, num4, 480, 255, 3);
 	}
-	
-	public void initialize() {
-		num1 = new Rooms();										// num1 생성
-		frame = new JFrame();
+
+	public void initialize(Rooms num1) {
+		
+		//frame = new JFrame();
 		frame.setBounds(100, 100, 800, 750); 					// 가로 위치, 세로 위치, 가로 길이, 세로 길이
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		/* 이름 저장공간 */
-		JTextField name1 = new JTextField(15);
-		
-		/* 전화번호 저장공간 */
-		JTextField phone1 = new JTextField(15);
 		
 		/* 윗 부분 패널 */
 		JPanel top_panel = new JPanel();
@@ -64,149 +102,20 @@ public class Main_Activity {
 		top_panel.setLayout(null);
 		
 		/* 중간 부분 패널 */
-		JPanel panel = new JPanel();
+		// 가운데 초기 패널
 		panel.setBackground(new Color(255, 255, 255));
 		panel.setBounds(0, 100, 784, 400);
-		frame.getContentPane().add(panel);
+		// panel의 레이아웃 설정 안함
 		panel.setLayout(null);
-		
-		/* 아랫 부분 패널 */
-		/* 이름 입력 */
-		JPanel inputname = new JPanel();
-		inputname.setBackground(new Color(51, 255, 255));
-		inputname.setBounds(0, 0, 784, 10);
-		inputname.add(new JLabel("이름 : "));
-		inputname.add(name1);
-		//num1.setName(name1.getText());
-		
-		/* 핸드폰 번호 입력 */
-		JPanel phonenum = new JPanel();
-		phonenum.setBackground(new Color(51, 255, 255));
-		phonenum.setBounds(0, 0, 784, 10);
-		phonenum.add(new JLabel("핸드폰 번호 : "));
-		phonenum.add(phone1);
-		
-		/* 현재 시각 입력 -> 이거 다시 해야할 듯 */
-		JPanel inputtime = new JPanel();
-		inputtime.setBackground(new Color(51, 255, 255));
-		inputtime.setBounds(0, 0, 784, 10);
-		JLabel timeInsert = new JLabel("시간 : ");
-		inputtime.add(timeInsert);
-		SimpleDateFormat timeformat = new SimpleDateFormat ( "yyyy-MM-dd HH:mm");
-		Date time = new Date();
-		String time1 = timeformat.format(time);
-		JLabel temptime = new JLabel(time1);		// 임시 시간
-		inputtime.add(temptime);
-		
-		/* 예약 / 시작 선택 */
-		JPanel status = new JPanel();
-		status.setBackground(new Color(51, 255, 255));
-		status.setBounds(0, 0, 784, 10);
-		status.setLayout(new FlowLayout()); 					// new 꼭 붙일 것!
-		JButton resbtn = new JButton("예약");
-		JButton startbtn = new JButton("시작");
-		status.add(resbtn);
-		status.add(startbtn);
-		
-		JPanel bottom_panel = new JPanel();
-		bottom_panel.setBackground(new Color(51, 255, 255));
-		bottom_panel.setBounds(0, 500, 784, 200);
-		frame.getContentPane().add(bottom_panel);
-		bottom_panel.setLayout(new BoxLayout(bottom_panel, BoxLayout.Y_AXIS));	// BoxLayout으로 설정
-		bottom_panel.add(inputname);
-		bottom_panel.add(phonenum);
-		bottom_panel.add(inputtime);
-		bottom_panel.add(status);
-		bottom_panel.setVisible(false);							// 버튼 클릭 전까지 볼 수 없음
-		
-		/* 예약 관리 화면 */
-		JPanel manage_res = new JPanel();
-		JButton res_cancel = new JButton("예약 취소");
-		JButton res_to_start = new JButton("사용 시작");
-		manage_res.add(res_cancel);								// 예약 취소 버튼 추가
-		manage_res.add(res_to_start);							// 사용 시작 버튼 추가
-		res_cancel.setBounds(50, 50, 784, 10);
-		res_to_start.setBounds(50, 80, 784, 10);
-		manage_res.setBackground(new Color(51, 255, 255));
-		manage_res.setBounds(0, 500, 784, 200);
-		frame.getContentPane().add(manage_res);
-		//manage_res.setLayout(new BoxLayout(manage_res, BoxLayout.Y_AXIS));	// BoxLayout으로 설정
-		manage_res.setVisible(false);							// 버튼 클릭 전까지 볼 수 없음
+		frame.getContentPane().add(panel);		
 		
 		JLabel intro = new JLabel("보드 게임 예약 현황");
-	
-		JButton room1 = new JButton("방 1");
-		JButton room1res = new JButton("");
-		room1res.setVisible(false);
-		
-		/* room1버튼 클릭 시 */
-		room1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				bottom_panel.setVisible(true);
-				manage_res.setVisible(false);
-			}
-		});
-		
-		/* room1res버튼 클릭 시 */
-		room1res.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				bottom_panel.setVisible(false);
-				manage_res.setVisible(true);
-			}
-		});
-		
-		/* 에약 버튼 클릭 시 */
-		resbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				room1.setVisible(false);				// room1 투명화
-				room1res.setVisible(true);				// room1res 가시화
-				num1.setName(name1.getText());
-				num1.setPhone(phone1.getText());
-				Date timeupdate = new Date();
-				String time1 = timeformat.format(timeupdate);
-				JLabel temptime = new JLabel(time1);
-				inputtime.removeAll();
-				JLabel timeInsert = new JLabel("시간 : ");
-				inputtime.add(timeInsert);
-				inputtime.add(temptime);		// 시간 업데이트 -> 문제점 : 계속 시간이 늘어남 -> 수정 완료
-				num1.setTime(time1);
-				
-				/*줄바꿈을 이용하기 위해 HTML 사용*/
-				room1res.setText(String.format("<HTML>예약 시간 : %s <br>이름 : %s<br>전화번호 : %s</HTML>",num1.getTime(), num1.getName(), num1.getPhone()));
-				bottom_panel.setVisible(false);			// bottom_panel 투명화, 예약 관리 가시화(추가 예정)
-				
-			}
-		});
-		
-		/* 예약 취소 버튼 클릭 시 */
-		res_cancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e ) {
-				bottom_panel.setVisible(true);
-				manage_res.setVisible(false);
-				room1.setVisible(true);
-				room1res.setVisible(false);
-			}
-		});
-		
-		/* 시작 버튼 클릭 시 */
-		startbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		
 		intro.setFont(new Font("Dialog", Font.PLAIN, 20));
 		intro.setBounds(300, 0, 200, 100);						// 인트로 바운드 설정
-		/* 버튼 바운드 설정 */
-		room1.setBounds(100, 74, 200, 100);						
-		room1res.setBounds(100, 74, 200, 100);
+		
 		top_panel.add(intro);
-		/* room1 ~ 4, room1 ~ 4res 추가 (room2 ~ 4, room2 ~ 4res 추가 예정)	 */
-		panel.add(room1);											
-		panel.add(room1res);									
+		/* room1 ~ 4, room1 ~ 4res 추가 (room2 ~ 4, room2 ~ 4res 추가 예정)	 */											
 	}
-	
-	
 	
 }
 
@@ -220,14 +129,4 @@ public class Main_Activity {
 
 /* 더미 데이터 
 
-void start(Rooms room)
-	{
-		JOptionPane Jstart=new JOptionPane();
-		String username=Jstart.showInputDialog("이름을 입력하세요");
-		room.setName(username);
-		// System.out.println(room.getName());					// 확인용. "//" 없앨 시 콘솔에 이름 출력.
-		
-		
-
-	}
 */

@@ -33,7 +33,7 @@ public class AfterLoginFrame extends JFrame{
 	public AfterLoginFrame(String username)
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(400, 300);
+		setSize(500, 300);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -41,12 +41,12 @@ public class AfterLoginFrame extends JFrame{
 		contentPane.setLayout(null);
 		
 		listBtn = new JButton("회원정보");  ///회원정보 버튼
-		listBtn.setBounds(135, 154, 106, 29);
+		listBtn.setBounds(180, 154, 106, 29);
 		contentPane.add(listBtn);
 		
 		
 		reserveBtn = new JButton("예약하기"); //예약버튼
-		reserveBtn.setBounds(135, 74, 106, 29);
+		reserveBtn.setBounds(180, 74, 106, 29);
 		contentPane.add(reserveBtn);
 		
 		setVisible(true);

@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JPasswordField;
 
 import dao.MemberDao;
 import boss_Activity.Main_Activity;
@@ -18,8 +19,9 @@ import boss_Activity.Main_Activity;
 public class LoginFrame extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField tfUsername, tfPassword; //아이디, 비밀번호 입력칸
-	private JButton loginBtn, joinBtn;//infoBtn; //로그인, 회원가입 버튼
+	private JTextField tfUsername; //, tfPassword; //아이디, 비밀번호 입력칸
+	private JPasswordField tfPassword;
+	private JButton loginBtn, joinBtn, findBtn; //로그인, 회원가입 버튼
 
 	/**
 	 * Launch the application.
@@ -42,7 +44,7 @@ public class LoginFrame extends JFrame {
 	 */
 	public LoginFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(400, 300);
+		setSize(500, 300);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -50,37 +52,45 @@ public class LoginFrame extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblLogin = new JLabel("username");
-		lblLogin.setBounds(41, 52, 69, 35);
+		lblLogin.setBounds(51, 52, 69, 35);
 		contentPane.add(lblLogin);
 		
 		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setBounds(41, 103, 69, 35);
+		lblPassword.setBounds(51, 103, 69, 35);
 		contentPane.add(lblPassword);
 		
 		tfUsername = new JTextField();
-		tfUsername.setBounds(157, 52, 176, 35);
+		tfUsername.setBounds(187, 52, 176, 35);
 		contentPane.add(tfUsername);
 		tfUsername.setColumns(10);
 		
 		joinBtn = new JButton("회원가입");
-		joinBtn.setBounds(229, 154, 104, 29);
+		joinBtn.setBounds(340, 154, 100, 29);
 		contentPane.add(joinBtn);
 		
 		loginBtn = new JButton("로그인");
-		loginBtn.setBounds(108, 154, 106, 29);
+		loginBtn.setBounds(200, 154, 100, 29);
 		contentPane.add(loginBtn);
 		
-//		infoBtn = new JButton("회원정보보기");
-//		infoBtn.setBounds(108, 154, 106, 29);
-//		contentPane.add(loginBtn);
+		findBtn = new JButton("ID/PW 찾기");
+		findBtn.setBounds(60, 154, 100, 29);
+		contentPane.add(findBtn);
 		
-		tfPassword = new JTextField();
+		tfPassword = new JPasswordField();
 		tfPassword.setColumns(10);
-		tfPassword.setBounds(157, 103, 176, 35);
+		tfPassword.setBounds(187, 103, 176, 35);
 		contentPane.add(tfPassword);
 		
 		setVisible(true);
 		
+		//id pw 찾기 눌렀을때
+		findBtn.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e)
+			{
+				FindFrame frame=new FindFrame();
+			}
+		});
 		//회원가입 눌렀을때
 		joinBtn.addActionListener(new ActionListener() {
 			
